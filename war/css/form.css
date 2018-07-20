@@ -1,0 +1,58 @@
+form{
+    font-family: monospace;
+    width: 450px;
+    margin: auto;
+    background: rgba(36,205,55,0.5);
+    padding: 10px 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    
+}
+input[type=text]{
+    font-family: monospace;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 7px;
+    font-size: 15px;
+    box-sizing: border-box;
+    border: none;
+    color: #000000;
+}
+input[type=radio]{
+    width: 15px;
+    padding: 7px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+input[type=date]{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#botonsubmit{
+    background: rgba(2, 111, 15, 0.92);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 9px;
+    border: none;
+    font-size: 15px;
+    
+    
+}
+#botonsubmit:hover{
+    cursor: pointer;
+    background: rgba(52, 105, 58, 0.8);
+}
+label{
+    color: #ffffff
+}
+@media (max-width:480px){
+    form{
+        width: 100%;
+    }
+}

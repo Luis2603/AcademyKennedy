@@ -2,6 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="model.entity.Role" %>
+<%@ page import="com.google.appengine.api.users.UserService" %>
+<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%  UserService us = UserServiceFactory.getUserService();
+	com.google.appengine.api.users.User user = us.getCurrentUser();
+	boolean hayusuarioactivo=false;
+	if(user != null){
+		hayusuarioactivo=true;
+	}else{
+		hayusuarioactivo=false;
+	}							
+																	%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -13,6 +24,7 @@
 
   <!-- Bootstrap -->
   <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/form.css" rel="stylesheet">
   <link rel="../stylesheet" href="css/font-awesome.min.css">
   <link rel="../stylesheet" href="css/animate.css">
   <link href="../css/prettyPhoto.css" rel="stylesheet">
@@ -52,8 +64,12 @@
                 <li role="presentation"><a href="/users">Users</a></li>
                 <li role="presentation"><a href="/resources">Resources</a></li>
                 <li role="presentation"><a href="/access">Access</a></li>
-                <li role="presentation"><a href="/users/login">Login</a></li>
-                <li role="presentation"><a href="/users/logout">Logout</a></li>
+                <%if(hayusuarioactivo){ %>
+                <li role="presentation"><a href="/users/login"><%= user.getEmail() %></a></li>
+                <li role="presentation"><a href="/users/logout">Salir</a></li>
+                <% }else{ %>
+                <li role="presentation"><a href="/users/login">Iniciar Sesión</a></li>
+                <% }%>
               </ul>
             </div>
           </div>

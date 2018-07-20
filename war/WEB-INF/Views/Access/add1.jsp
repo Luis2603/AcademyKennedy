@@ -3,6 +3,17 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.entity.Role" %>
 <%@ page import="model.entity.Resource" %>
+<%@ page import="com.google.appengine.api.users.UserService" %>
+<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%  UserService us = UserServiceFactory.getUserService();
+	com.google.appengine.api.users.User user = us.getCurrentUser();
+	boolean hayusuarioactivo=false;
+	if(user != null){
+		hayusuarioactivo=true;
+	}else{
+		hayusuarioactivo=false;
+	}							
+																	%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -13,6 +24,7 @@
   <title>Agregar Acceso</title>
 
   <!-- Bootstrap -->
+  <link href="../css/form.css" rel="stylesheet">
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link rel="../stylesheet" href="css/font-awesome.min.css">
   <link rel="../stylesheet" href="css/animate.css">
@@ -48,13 +60,18 @@
               <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation"><a href="index1.html">Home</a></li>
                 <li role="presentation"><a href="/alumnos">Alumnos</a></li>
+                       <li role="presentation"><a href="/pensiones">Pensiones</a></li>
                 <li role="presentation"><a href="/seminaries">Seminarios</a></li>
                 <li role="presentation"><a href="/roles">Roles</a></li>
                 <li role="presentation"><a href="/users">Users</a></li>
                 <li role="presentation"><a href="/resources">Resources</a></li>
                 <li role="presentation"><a href="/access">Access</a></li>
-                <li role="presentation"><a href="/users/login">Login</a></li>
-                <li role="presentation"><a href="/users/logout">Logout</a></li>
+                <%if(hayusuarioactivo){ %>
+                <li role="presentation"><a href="/users/login"><%= user.getEmail() %></a></li>
+                <li role="presentation"><a href="/users/logout">Salir</a></li>
+                <% }else{ %>
+                <li role="presentation"><a href="/users/login">Iniciar Sesión</a></li>
+                <%} %>
               </ul>
             </div>
           </div>
@@ -104,9 +121,17 @@
 	 	 	 <label>IdRole:</label>		
 		 	 <input type="text" name="IdRole" placeholder="aun no hay recurso" readonly required><br>		
 	 	 <%} %>
+	 	  <br>
+		  <table>
+		  	<tr>
+		  		<td><input type="radio" name="status" value="true" checked>Activo<br></td>
+		  	</tr>
+		  	<tr>
+		  		<td><input type="radio" name="status" value="false">Inactivo</td>
+		  	</tr>
+		  </table>
 		  
-		  <input type="radio" name="status" value="true" checked>Activo<br>
-		  <input type="radio" name="status" value="false">Inactivo<br>
+		  <br>
 				 
 		</fieldset>
         <button type="submit">Registrar acceso</button>

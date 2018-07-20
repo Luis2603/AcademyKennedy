@@ -4,6 +4,7 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.*;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Seminary {
 	public Seminary(String course, String teacher,String classroom, String date,
@@ -14,6 +15,9 @@ public class Seminary {
 		this.classroom=classroom;
 		this.date = date;
 		this.hour = hour;
+		this.users_go=new ArrayList<String>();
+		
+		
 		
 	}
 	@PrimaryKey
@@ -29,6 +33,9 @@ public class Seminary {
 	private String date;
 	@Persistent
 	private String hour;
+	@Persistent
+	private ArrayList<String>users_go;
+	
 	
 	
 	
@@ -68,6 +75,12 @@ public class Seminary {
 	}
 	public void setClassroom(String classroom) {
 		this.classroom = classroom;
+	}
+	public ArrayList<String> getUsers_go(){
+		return users_go;
+	}
+	public void addUser(String newuser){
+		this.users_go.add(newuser);
 	}
 	
 	

@@ -21,6 +21,7 @@
   <link rel="../stylesheet" href="css/animate.css">
   <link href="../css/prettyPhoto.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet" />
+  <link href="../css/form.css" rel="stylesheet">
   <!-- =======================================================
     Theme Name: Company
     Theme URL: https://bootstrapmade.com/company-free-html-bootstrap-template/

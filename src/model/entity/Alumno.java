@@ -1,13 +1,15 @@
 package model.entity;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import model.entity.Pension;
+import model.entity.Recibo;
 
 
 
@@ -30,7 +32,11 @@ public class Alumno {
 	@Persistent private boolean gender;
 	@Persistent private int age;
 	//LocalDateTime current_date=LocalDateTime.now(ZoneId.of("America/Lima"));
-	
+	private ArrayList<Pension> pensiones;
+	@Persistent
+	private String monto;
+	private ArrayList<Recibo> recibos;
+	private ArrayList<Date> fechas;
 	
 	public Alumno(String email,String names,String apellidos,String dni,boolean gender,Date birth,String degree,String edad) {
 		super();
@@ -45,7 +51,63 @@ public class Alumno {
 		
 		this.created = new Date();
 		
+		pensiones=new ArrayList<Pension>();
+		this.renovPensiones(pensiones);
+		recibos=new ArrayList<Recibo>();
 		
+		
+	}
+	public Alumno(String names,String monto) {
+		super();
+		
+		this.names = names;
+		this.monto=monto;
+		
+		pensiones=new ArrayList<Pension>();
+		this.renovPensiones(pensiones);
+		recibos=new ArrayList<Recibo>();
+		
+		
+	}
+	public void renovPensiones(ArrayList<Pension>p){
+		p.add(new Pension("Marzo"));
+		p.add(new Pension("Abril"));
+		p.add(new Pension("Mayo"));
+		p.add(new Pension("Junio"));
+		p.add(new Pension("Julio"));
+		p.add(new Pension("Agosto"));
+		p.add(new Pension("Septiembre"));
+		p.add(new Pension("Octubre"));
+		p.add(new Pension("Noviembre"));
+		p.add(new Pension("Diciembre"));
+		
+	}
+	
+	public ArrayList<Pension> getPensiones(){
+		return pensiones;
+	}
+	public void setPensiones(ArrayList<Pension> p){
+		this.pensiones=p;
+	}
+	public Pension getPension(String m){
+		int i=0;
+		Pension p=new Pension();
+		for(i=0;i<pensiones.size();i++){
+			if(pensiones.get(i).getMes().equals(m))
+				p=pensiones.get(i);
+		}
+		return p;
+	}
+	
+	public void addRecibo(Recibo rec){
+		Recibo nuevo=rec;
+		this.recibos.add(nuevo);
+	}
+	public ArrayList<Recibo> getRecibos(){
+		return recibos;
+	}
+	public void setRecibos(ArrayList<Recibo> r){
+		this.recibos=r;
 	}
 	public String getEmail() {
 		return email;

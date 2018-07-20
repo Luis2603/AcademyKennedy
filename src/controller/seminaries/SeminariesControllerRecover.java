@@ -1,91 +1,81 @@
 package controller.seminaries;
 
 import java.io.IOException;
+
+import javax.servlet.http.*;
+
+import com.google.appengine.api.users.UserServiceFactory;
+
+import controller.PMF;
+import model.entity.Access;
+import model.entity.Alumno;
+import model.entity.User;
+import model.entity.Resource;
+import model.entity.Seminary;
+import model.entity.Role;
+
 import java.util.List;
+import javax.servlet.*;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Transaction;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserServiceFactory;
 
-import model.entity.Access;
-import model.entity.Resource;
-import model.entity.Seminary;
-import model.entity.User;
-import controller.PMF;
-
 @SuppressWarnings("serial")
 public class SeminariesControllerRecover extends HttpServlet {
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException,IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		com.google.appengine.api.users.User uGoogle = UserServiceFactory.getUserService().getCurrentUser();
-		String error;
-		/* Verificando login presente */
-		if(uGoogle == null){
-			error="No hay ningun usuario activo";
-			request.setAttribute("error", error);
-			RequestDispatcher dp = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/deny11.jsp");
-			dp.forward(request, response);
-		}else{
-			/*PMF para consultas */
+		// verificando login presente
+		if (uGoogle == null) {
+			RequestDispatcher var = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/deny11.jsp");
+			var.forward(req, resp);
+		} else {
+			// PMF para consultas
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			/*Buscando usuario registrado activo con el email */
-			String query = "select from " + User.class.getName() + 
-					" where email=='" + uGoogle.getEmail()+ "'" +
-					"&& status==true";
-			List<User> uSearch = (List<User>) pm.newQuery(query).execute();
-			/* Verificando usuario registrado*/
-			if(uSearch.isEmpty()){
-				error="El Usuario activo no esta registrado";
-				request.setAttribute("error", error);
-				RequestDispatcher dp = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/deny22.jsp");
-				dp.forward(request, response);
-			}else{
-				System.out.println(request.getServletPath());
-				/* Buscando resource registrado activo de acuerdo a la URL */
-				String query2 = "select from " + Resource.class.getName()+
-						" where name=='" + request.getServletPath() + "'" +
-						" &&status==true";
-				List<Resource> rSearch = (List<Resource>)pm.newQuery(query2).execute();
-				/* Verificando recurso registrado*/
-				if( rSearch.isEmpty()){
-					error="Este recurso no esta habilitado o no existe";
-					request.setAttribute("error", error);
-					RequestDispatcher dp = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/denny33.jsp");
-					dp.forward(request, response);
-				}else{
-					/* Buscando acceso registrado activo para el rol y recurso */
-					String query3 = "select from " + Access.class.getName() +
-							" where rolId==" + uSearch.get(0).getIdRole() +
-							" && resourceId==" + rSearch.get(0).getId() +
-							" && status==true";
-					List<Access> aSearch = (List<Access>)pm.newQuery(query3).execute();
-					/* Verificando acceso registrado */
-					if(aSearch.isEmpty()){
-						error="El usuario activo no tiene acceso a este recurso";
-						request.setAttribute("error", error);
-						RequestDispatcher dp = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/deny3.jsp");
-						dp.forward(request, response);
-					}else{
-						Key k =	KeyFactory.createKey(Seminary.class.getSimpleName(), new Long(request.getParameter("seminaryID")).longValue());
+			// buscando usuario registrado activo con el email
+			String query1 = "select from " + User.class.getName() + " where email=='" + uGoogle.getEmail() + "'"
+					+ "&& status==true";
+			List<User> uSearch = (List<User>) pm.newQuery(query1).execute();
+			// verificando usuario registrado
+			if (uSearch.isEmpty()) {
+				RequestDispatcher var = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/deny22.jsp");
+				var.forward(req, resp);
+			} else {
+
+				System.out.println(req.getServletPath());
+				// buscando recurso registrado activo de acuerdo a la url
+				String query2 = "select from " + Resource.class.getName() + " where url=='" + req.getServletPath() + "'"
+						+ "&& status==true";
+
+				List<Resource> rSearch = (List<Resource>) pm.newQuery(query2).execute();
+				// verificando recurso registrado
+				if (rSearch.isEmpty()) {
+					RequestDispatcher var = getServletContext().getRequestDispatcher("/WEB-INF/Views/Errors/deny33.jsp");
+					var.forward(req, resp);
+				} else {
+					// buscando acceso registrado para rol y recurso
+					String query3 = "select from " + Access.class.getName() + " where IdRole=="
+							+ uSearch.get(0).getIdRole() + "&& IdUrl==" + rSearch.get(0).getId() + "&& status==true";
+					List<Access> aSearch = (List<Access>) pm.newQuery(query3).execute();
+					// verificando acceso registrado
+					if (aSearch.isEmpty()) {
+						RequestDispatcher var = getServletContext()
+								.getRequestDispatcher("/WEB-INF/Views/Errors/deny44.jsp");
+						var.forward(req, resp);
+					} else {
+						Key k =	KeyFactory.createKey(Seminary.class.getSimpleName(), new Long(req.getParameter("seminaryID")).longValue());
 						Seminary a = pm.getObjectById(Seminary.class, k);
 						
-						request.setAttribute("seminarioparaeditar", a);
+						req.setAttribute("seminarioparaeditar", a);
 						RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/Views/Seminaries/edit.jsp");
-						dispatcher.forward(request, response);
+						dispatcher.forward(req, resp);
 					}
 				}
-				
-						
 			}
+
 		}
-		
-			
 	}
 	
 }

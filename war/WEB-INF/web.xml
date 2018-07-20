@@ -4,6 +4,70 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	
+	<servlet>
+		<servlet-name>SeminariesControllerDisplay</servlet-name>
+		<servlet-class>controller.seminaries.SeminariesControllerDisplay</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SeminariesControllerDisplay</servlet-name>
+		<url-pattern>/seminaries/display</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	
+		<servlet-name>SeminariesControllerGo</servlet-name>
+		<servlet-class>controller.seminaries.SeminariesControllerGo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SeminariesControllerGo</servlet-name>
+		<url-pattern>/seminaries/go</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	
+		<servlet-name>SeminariesControllerUsers</servlet-name>
+		<servlet-class>controller.seminaries.SeminariesControllerUsers</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SeminariesControllerUsers</servlet-name>
+		<url-pattern>/seminaries/users</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	
+		<servlet-name>PensionesControllerIndex</servlet-name>
+		<servlet-class>controller.pensiones.PensionesControllerIndex</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PensionesControllerIndex</servlet-name>
+		<url-pattern>/pensiones</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PensionesControllerView</servlet-name>
+		<servlet-class>controller.pensiones.PensionesControllerView</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PensionesControllerView</servlet-name>
+		<url-pattern>/pensiones/view</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PensionesControllergetDeudas</servlet-name>
+		<servlet-class>controller.pensiones.getDeudas</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PensionesControllergetDeudas</servlet-name>
+		<url-pattern>/getDeudas</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PensionesControllerPagarPension</servlet-name>
+		<servlet-class>controller.pensiones.PagarPension</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PensionesControllerPagarPension</servlet-name>
+		<url-pattern>/pagar</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 	<servlet>
 		<servlet-name>AlumnosControllerAdd</servlet-name>
 		<servlet-class>controller.alumnos.AlumnosControllerAdd</servlet-class>
@@ -287,7 +351,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
 	
 	<welcome-file-list>
-		<welcome-file>index1.html</welcome-file>
+		<welcome-file>index1.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>
 
